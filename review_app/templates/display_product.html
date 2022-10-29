@@ -35,7 +35,7 @@
         <h5>Отзывы</h5>
         <hr>
         {% for item in reviews %}
-            <p>Автор: <a href="{% url 'user_page' user.id %} ">{{item.author}} </a></p>
+            <p>Автор: <a href="{% url 'user_page' item.author.id %} ">{{item.author}} </a></p>
             <p>{{item.text}}</p>
             <p>Email: {{item.author.email}} </p>
             <p>Rating: {{item.rating}} </p>

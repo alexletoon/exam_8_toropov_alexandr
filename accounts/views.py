@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth import get_user_model
 
 class LoginView(TemplateView):
     template_name: str = 'login.html'
@@ -58,8 +59,8 @@ class RegisterView(CreateView):
 
 class UserAccountView(DetailView):
     template_name: str = 'user_page.html'
-    model = User
-    # context_object_name = 'user_obj'
+    model = get_user_model()
+
 
 
 class UpdateUserAccountView(UpdateView):
@@ -67,7 +68,3 @@ class UpdateUserAccountView(UpdateView):
     model = User
     form_class = UserUpdateForm
     success_url = '/'
-
-
-    # def test_func(self):
-    #     return self.request.user.is_superuser or self.get_object().author == self.request.user
