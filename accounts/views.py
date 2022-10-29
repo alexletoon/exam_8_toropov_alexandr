@@ -1,8 +1,9 @@
-from django.views.generic import TemplateView, CreateView
-from accounts.forms import CustomUserCreationForm, LoginForm
+from django.views.generic import TemplateView, CreateView, DetailView, UpdateView
+from accounts.forms import CustomUserCreationForm, LoginForm, UserUpdateForm
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
-
+from django.contrib.auth.models import User
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 class LoginView(TemplateView):
     template_name: str = 'login.html'
@@ -53,3 +54,20 @@ class RegisterView(CreateView):
         context = {}
         context['form'] = form 
         return self.render_to_response(context)
+
+
+class UserAccountView(DetailView):
+    template_name: str = 'user_page.html'
+    model = User
+    # context_object_name = 'user_obj'
+
+
+class UpdateUserAccountView(UpdateView):
+    template_name: str = 'update_user_page.html'
+    model = User
+    form_class = UserUpdateForm
+    success_url = '/'
+
+
+    # def test_func(self):
+    #     return self.request.user.is_superuser or self.get_object().author == self.request.user

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+             Данные пользователя
+            </div>
+            <div class="card-body">
+            {% if not user.first_name %}
+            <h5 class="card-title">Имя: Не указано</h5>
+            {% else %}
+              <h5 class="card-title">Имя: {{user.get_full_name|default:user.username}} </h5>
+            {% endif %}
+              <p class="card-text"> Логин: {{user.username}}</p>
+              <p class="card-text"> Эл. почта: {{user.email}}</p>
+              {% if perms.review_app.change_user or user == request.user %}
+                <a href="{% url 'update_user_page' user.id %} " class="btn btn-primary">Редактировать данные</a>
+              {% endif %}
+            </div>
+          </div>
+    </div>
+</div>
+<div class="row my-3">
+    <div class="col-10">
+        <h5>Отзыва пользователя {{user.username}} </h5>
+        <hr>
+        {% for item in user.author_reviews.all %}
+        <ul class="list-group">
+            <li class="list-group-item">Продукт: {{item.product}} Отзыв: {{item.text}}</li>
+          </ul>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -19,18 +19,40 @@
         <h5>Категория:</h5>
         <p> {{product.get_category_display}} </p>
         <p>Средняя оценка: {{total}}</p>
+
+        <div class="row my-2">
+        {% if perms.review_app.delete_product %}
+            <a href="{% url 'delete_product' product.id %}" class="btn btn-primary">Удалить</a>
+            <hr>
+        {% endif %}
+        {% if perms.review_app.change_product %}
+            <a href="{% url 'edit_product' product.id %}" class="btn btn-secondary">Редактировать</a>
+        {% endif %}
+        </div>
+
         <hr>
+
         <h5>Отзывы</h5>
         <hr>
         {% for item in reviews %}
-            <p>{{item.author}}: {{item.text}}</p>
+            <p>Автор: <a href="{% url 'user_page' user.id %} ">{{item.author}} </a></p>
+            <p>{{item.text}}</p>
             <p>Email: {{item.author.email}} </p>
             <p>Rating: {{item.rating}} </p>
-            <a href="{% url 'update_review' item.id %} " class="btn btn-secondary">Редактировать отзыв</a>
-            <a href="{% url 'delete_review' item.id %}" class="btn btn-primary">Удалить</a>
+            {% if user.is_authenticated %}
+                {% if perms.review.app.change_review or item.author == request.user %}
+                <a href="{% url 'update_review' item.id %} " class="btn btn-secondary">Редактировать отзыв</a>
+                {% endif %}
+                {% if perms.review.app.delete_review or item.author == request.user %}
+                <a href="{% url 'delete_review' item.id %}" class="btn btn-primary">Удалить</a>
+                {% endif %}
+            {% endif %}
             <hr>
         {% endfor %}
-        <a href="{% url 'add_review' product.pk %} " class="btn btn-primary">Добавить отзыв</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'add_review' product.pk %} " class="btn btn-primary">Добавить отзыв</a>
+        {% endif %}
+
     </div>
 </div>
 
