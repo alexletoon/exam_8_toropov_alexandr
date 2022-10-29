@@ -24,13 +24,15 @@ class UpdateReviewView(UpdateView):
     template_name: str = 'update_review.html'
     model = Review
     form_class = ReviewForm
-    paginate_by = 5
-    paginate_orphans: int = 1
     success_url ='/'
 
-    def form_valid(self, form):
-        product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
-        form.instance.product = product
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     product = get_object_or_404(Product, pk=self.kwargs.get('pk'))
 
+    #     return super().form_valid(form)
+
+
+class DeleteReviewView(DeleteView):
+    template_name: str = 'confirm_review_delete.html'
+    model = Review
+    success_url ='/'

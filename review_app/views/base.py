@@ -1,6 +1,7 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from review_app.models import Product, Review
 from review_app.forms import ProductForm
+from django.db.models import Avg, IntegerField
 
 class IndexView(ListView):
     template_name: str = 'index.html'
@@ -18,6 +19,9 @@ class DisplayProductView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         product_review = self.object.product_reviews.all()
+        total = product_review.aggregate(Avg('rating', output_field=IntegerField()))
+        total = total.get('rating__avg')
+        context['total'] = total
         context['reviews'] = product_review
         return context
 

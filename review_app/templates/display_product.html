@@ -18,10 +18,17 @@
         <p>{{product.description}}</p>
         <h5>Категория:</h5>
         <p> {{product.get_category_display}} </p>
+        <p>Средняя оценка: {{total}}</p>
         <hr>
         <h5>Отзывы</h5>
+        <hr>
         {% for item in reviews %}
             <p>{{item.author}}: {{item.text}}</p>
+            <p>Email: {{item.author.email}} </p>
+            <p>Rating: {{item.rating}} </p>
+            <a href="{% url 'update_review' item.id %} " class="btn btn-secondary">Редактировать отзыв</a>
+            <a href="{% url 'delete_review' item.id %}" class="btn btn-primary">Удалить</a>
+            <hr>
         {% endfor %}
         <a href="{% url 'add_review' product.pk %} " class="btn btn-primary">Добавить отзыв</a>
     </div>
