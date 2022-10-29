@@ -1,5 +1,5 @@
 from django.urls import path
-from views.base import ListView
+from review_app.views.base import ListView
 
 
 urlpatterns = [
