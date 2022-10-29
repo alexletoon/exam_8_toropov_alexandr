@@ -26,8 +26,8 @@ class Product(models.Model):
 
 
 class Review(models.Model):
-    author = models.ForeignKey(to=get_user_model(), verbose_name='Автор', related_name='reviews', null=False, blank=False, on_delete=models.CASCADE)
-    product = models.ForeignKey(to='review_app.Product', verbose_name='Продукт', related_name='products', null=False, blank=False, on_delete=models.CASCADE)
+    author = models.ForeignKey(to=get_user_model(), verbose_name='Автор', related_name='author_reviews', null=False, blank=False, on_delete=models.CASCADE)
+    product = models.ForeignKey(to='review_app.Product', verbose_name='Продукт', related_name='product_reviews', null=False, blank=False, on_delete=models.CASCADE)
     text = models.TextField(verbose_name='Отзыв', max_length=3000, null=False, blank=True)
     rating = models.PositiveSmallIntegerField(verbose_name='Оценка', null=False, blank=False, validators=[MinValueValidator(1),MaxValueValidator(5)])
     created_at = models.DateTimeField(verbose_name='Дата создания', auto_now_add=True)

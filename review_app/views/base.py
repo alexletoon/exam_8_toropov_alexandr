@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from review_app.models import Product
-
+from review_app.models import Product, Review
+from review_app.forms import ProductForm
 
 class IndexView(ListView):
     template_name: str = 'index.html'
@@ -13,6 +13,14 @@ class IndexView(ListView):
 class DisplayProductView(DetailView):
     template_name: str = 'display_product.html'
     model = Product
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product_review = self.object.product_reviews.all()
+        context['reviews'] = product_review
+        return context
+
 
 
 class AddProductView(CreateView):

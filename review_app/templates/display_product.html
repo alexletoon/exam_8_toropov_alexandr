@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h5>Информация о продукте</h5>
+
+
+<div class="row">
+    <div class="col-4">
+        {% if not product.image %}
+            <p> <img src="{% static "default_img/Cat.jpeg" %}" class="img-fluid" alt="pic"> </p>
+        {% else %}
+            <p><img src="{{ product.image.url }}" class="img-fluid" alt="pic"></p> 
+        {% endif %}
+        <h5>Наименование:</h5>
+        <p>{{product.name}}</p>
+        <h5>Описание:</h5>
+        <p>{{product.description}}</p>
+        <h5>Категория:</h5>
+        <p> {{product.get_category_display}} </p>
+        <hr>
+        <h5>Отзывы</h5>
+        {% for item in reviews %}
+            <p>{{item.author}}: {{item.text}}</p>
+        {% endfor %}
+        <a href="{% url 'add_review' product.pk %} " class="btn btn-primary">Добавить отзыв</a>
+    </div>
+</div>
+
+
+{% endblock %}
