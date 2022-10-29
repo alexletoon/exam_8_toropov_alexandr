@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row mx-auto justify-content-center">
+        <form action="{% url 'login' %}" method="POST">
+            <div class="col-4">
+                {% for item in form %}
+                {% csrf_token %}
+                {% if field != "Next" %}
+                <div class="col-sm-10">
+                    <p><label for="{{item.id_for_label}}">{{item.label}}:</label></p>
+                    <p>{{item}}</p>
+                    <p>{{item.errors}}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary" value="Sign-in">Войти</button>
+        </form>
+    
+</div>
+
+
+{% endblock %}
